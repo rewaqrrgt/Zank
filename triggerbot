@@ -114,3 +114,46 @@ RunService.RenderStepped:Connect(function()
         end
     end
 end)
+
+-- Create function to show "Zank" text with RGB change at bottom left
+local function createZankNotification()
+    local PlayerGui = LocalPlayer:WaitForChild("PlayerGui")
+    local ScreenGui = Instance.new("ScreenGui")
+    ScreenGui.Parent = PlayerGui
+
+    local Frame = Instance.new("Frame")
+    Frame.Size = UDim2.new(0, 200, 0, 60) -- Set size of the frame
+    Frame.Position = UDim2.new(0, 20, 1, -80) -- Position the frame at bottom-left
+    Frame.BackgroundTransparency = 0.5
+    Frame.BackgroundColor3 = Color3.fromRGB(0, 0, 0) -- Black background
+    Frame.Parent = ScreenGui
+
+    -- Create the text label
+    local TextLabel = Instance.new("TextLabel")
+    TextLabel.Size = UDim2.new(1, 0, 1, 0)
+    TextLabel.Position = UDim2.new(0, 0, 0, 0)
+    TextLabel.Text = "Zank"
+    TextLabel.TextColor3 = Color3.fromRGB(255, 255, 255) -- Start with white color
+    TextLabel.TextSize = 30
+    TextLabel.TextWrapped = true
+    TextLabel.TextStrokeTransparency = 0.8
+    TextLabel.Parent = Frame
+
+    -- Create an RGB color changing effect using TweenService
+    local function changeColor()
+        local tweenInfo = TweenInfo.new(3, Enum.EasingStyle.Linear, Enum.EasingDirection.InOut, -1, true) -- Looping the tween
+
+        local colorTween = TweenService:Create(TextLabel, tweenInfo, {
+            TextColor3 = Color3.fromHSV(math.random(), 1, 1) -- Random RGB change (using HSV)
+        })
+
+        colorTween:Play()
+    end
+
+    -- Call the function to change colors
+    changeColor()
+end
+
+-- Call the createZankNotification function to start the RGB changing text
+createZankNotification()
+
